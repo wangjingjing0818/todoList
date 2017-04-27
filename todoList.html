@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>todoList</title>
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.css">
+</head>
+<style>
+    .del{
+        text-decoration:line-through;
+        color:#9d9d9d;
+    }
+</style>
+<body>
+<div id="app">
+    <div class="navbar navbar-inverse">
+        <div class="container-fluid container">
+            <div class="navbar-header">
+                <a href="##" class="navbar-brand">ToDoList</a>
+            </div>
+        </div>
+
+    </div>
+    <!--下面的待办事项-->
+    <div class="container">
+        <div class="h4 text-danger">
+            亲，您还有{{sum}}件事情要办哟！
+        </div>
+        <input type="text" class="form-control" placeholder="请输入你要办的事情" v-model="c" @keyup.13="addTodo">
+        <ul class="nav nav-pills" style="margin:10px">
+            <li :class="{active:state=='complete'}">
+                <a href="#complete">全部完成</a>
+            </li>
+            <li :class="{active:state=='finish'}">
+                <a href="#finish">已完成</a>
+            </li>
+            <li :class="{active:state=='unfinish'}">
+                <a href="#unfinish">未完成</a>
+            </li>
+        </ul>
+        <ul class="list-group">
+            <li class="list-group-item" v-for="todo in cloneTodo" :class="{del:todo.isChecked}" @dblclick="changeTitle(todo)">
+                <!--双击时告诉改的是哪一项-->
+                <!--当前循环的这项和我存的这项相等，应该上显示的是输入框-->
+               <div v-show="currentTodo!=todo">
+                   <input type="checkbox" v-model="todo.isChecked">
+                   <span>{{todo.title}}</span>
+                   <button style="border:none" class="pull-right btn-sm" @click="remove(todo)">&times;</button>
+               </div>
+                <input type="text" v-model="todo.title" v-show="currentTodo==todo" @keyup.13="reset" @blur="reset" v-auto-focus="currentTodo==todo">
+
+            </li>
+
+        </ul>
+    </div>
+</div>
+<script src="node_modules/vue/dist/vue.js"></script>
+<script src="todo.js"></script>
+
+</body>
+</html>
